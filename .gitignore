@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Backtest data/results
+*.csv
+!data/README.md
+results/*
+!results/README.md
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
