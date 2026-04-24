@@ -88,6 +88,43 @@ data/ETHUSDT_5m.csv
 
 CSV files are gitignored so large market data does not get committed.
 
+## Download market data
+
+You do not manually create the CSV. Use the downloader.
+
+Download BTC 1m data for Jan-Mar 2024:
+
+```bash
+python download_binance_data.py --symbol BTCUSDT --interval 1m --start 2024-01 --end 2024-03
+```
+
+This creates:
+
+```text
+data/BTCUSDT_1m.csv
+```
+
+Download all four files, BTC/ETH 1m/5m:
+
+```bash
+python download_binance_data.py --all --start 2024-01 --end 2024-03
+```
+
+This creates:
+
+```text
+data/BTCUSDT_1m.csv
+data/BTCUSDT_5m.csv
+data/ETHUSDT_1m.csv
+data/ETHUSDT_5m.csv
+```
+
+Use more months for a more meaningful backtest. Example full year:
+
+```bash
+python download_binance_data.py --all --start 2024-01 --end 2024-12
+```
+
 ## Example commands
 
 BTC 1m:
