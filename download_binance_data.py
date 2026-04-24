@@ -28,11 +28,29 @@ import pandas as pd
 
 BASE_URL = "https://data.binance.vision/data/spot/monthly/klines"
 RAW_COLS = [
-    "open_time", "open", "high", "low", "close", "volume",
-    "close_time", "quote_volume", "number_of_trades",
-    "taker_buy_base_volume", "taker_buy_quote_volume", "ignore",
+    "open_time",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "close_time",
+    "quote_volume",
+    "number_of_trades",
+    "taker_buy_base_volume",
+    "taker_buy_quote_volume",
+    "ignore",
 ]
-OUT_COLS = ["timestamp", "open", "high", "low", "close", "volume", "quote_volume", "number_of_trades"]
+OUT_COLS = [
+    "timestamp",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "quote_volume",
+    "number_of_trades",
+]
 
 
 def parse_ym(s: str) -> tuple[int, int]:
@@ -84,7 +102,9 @@ def zip_to_frame(blob: bytes) -> pd.DataFrame:
     df["timestamp"] = pd.to_datetime(df["open_time"], unit="ms", utc=True)
     for c in ["open", "high", "low", "close", "volume", "quote_volume"]:
         df[c] = pd.to_numeric(df[c], errors="coerce")
-    df["number_of_trades"] = pd.to_numeric(df["number_of_trades"], errors="coerce").fillna(0).astype(int)
+    df["number_of_trades"] = (
+        pd.to_numeric(df["number_of_trades"], errors="coerce").fillna(0).astype(int)
+    )
     return df[OUT_COLS]
 
 
@@ -111,12 +131,16 @@ def build_csv(symbol: str, interval: str, start: str, end: str, out_dir: Path) -
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Download Binance monthly kline CSVs")
-    p.add_argument("--symbol", choices=["BTCUSDT", "ETHUSDT"], help="Symbol to download")
+    p.add_argument(
+        "--symbol", choices=["BTCUSDT", "ETHUSDT"], help="Symbol to download"
+    )
     p.add_argument("--interval", choices=["1m", "5m"], help="Interval to download")
     p.add_argument("--start", required=True, help="Start month YYYY-MM")
     p.add_argument("--end", required=True, help="End month YYYY-MM, inclusive")
     p.add_argument("--out-dir", default="data")
-    p.add_argument("--all", action="store_true", help="Download BTCUSDT/ETHUSDT for 1m/5m")
+    p.add_argument(
+        "--all", action="store_true", help="Download BTCUSDT/ETHUSDT for 1m/5m"
+    )
     return p.parse_args()
 
 
